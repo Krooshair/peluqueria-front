@@ -1,9 +1,19 @@
+import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+
 function App() {
   return (
-    <>
-      <h1>App</h1>
-    </>
-  )
+    <AuthProvider>
+      <div className="bg-[#F0F0F0]">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />}></Route>
+          </Routes>
+        </Router>
+      </div>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

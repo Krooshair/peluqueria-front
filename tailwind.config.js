@@ -5,7 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily:{
+      'montserrat': ['Montserrat', 'sans-serif'],
+      'salsa': ['Salsa', 'cursive']
+    },
+    extend: {
+      backgroundImage: {
+        'check': "url('/svg/check.svg')",
+        'presentation' : "url('/img/presentacion.png')"
+      }
+    },
   },
   plugins: [],
 }
