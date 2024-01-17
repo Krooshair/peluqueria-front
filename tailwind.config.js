@@ -1,3 +1,5 @@
+import { transform } from 'typescript';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -13,6 +15,15 @@ export default {
       backgroundImage: {
         'check': "url('/svg/check.svg')",
         'presentation' : "url('/img/presentacion.png')"
+      },
+      animation:{
+        'alert': 'alert 0.5s linear'
+      },
+      keyframes:{
+        alert:{
+          '0%' : {transform: 'translateX(100%)'},
+          '100%': {transform: 'translateX(-1rem)'}
+        }
       }
     },
   },

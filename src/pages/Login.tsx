@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 type Inputs = {
   email: string;
@@ -9,18 +10,30 @@ type Inputs = {
 };
 
 const Login = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
-  const { singin } = useAuth();
+  const { singin, isAuth, isErrors } = useAuth();
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(isAuth){
+      navigate('/dashboard')
+    }
+  })
 
   const onSubmit: SubmitHandler<Inputs> = (data) => singin(data);
+
+  if(isAuth){
+    return null
+  }
 
   return (
     <div className="relative z-0 h-screen w-full overflow-hidden">
       <div className="mx-auto h-full w-[90%] max-w-screen-lg py-12">
         <div className="flex h-full w-full rounded-2xl md:bg-[#FAFAFA]">
           <div className="hidden h-full w-full rounded-s-xl bg-presentation bg-cover bg-center bg-no-repeat md:block"></div>
-          <div className="flex h-full w-full flex-col justify-around md:p-2">
+          <div className="flex h-full w-full flex-col justify-around md:p-2 md:relative overflow-hidden">
             <div className="flex h-full w-full flex-col justify-center gap-2">
               <h1 className="font-salsa text-5xl">Bienvenido</h1>
               <h2 className="font-montserrat">
@@ -84,16 +97,33 @@ const Login = () => {
                 Ingresar
               </button>
             </form>
+
+            {/* ALERTA DE ERRORES */}
+            {
+              errors.email && <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">El correo es obligatorio</span></div>
+            }
+            {
+              errors.email? 
+                errors.password && <div className="absolute top-14 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">La contraseña es obligatoria</span></div>
+              : errors.password && <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">La contraseña es obligatoria</span></div>
+            }
+            {
+              isErrors? 
+              (
+                <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">{isErrors}</span></div>
+              )
+              :null
+            }
           </div>
         </div>
-
-        {/* FIGURAS */}
-        <figure className="absolute -right-32 -top-40 -z-10 size-72 rounded-full bg-rose-500 md:-right-[20rem] md:-top-[20rem] md:size-[32rem] lg:size-[40rem] xl:size-[48rem]"></figure>
-        <figure className="absolute -right-64 -top-10 -z-10 size-80 rounded-full bg-rose-400 md:invisible"></figure>
-
-        <figure className="absolute -bottom-64 -left-72 -z-10 size-[36rem] rounded-[55%] bg-rose-400 md:-bottom-[40rem] md:-left-[28rem]  md:size-[76rem] lg:size-[82rem]"></figure>
-        <figure className="absolute -bottom-3/4 right-1/2 -z-10 size-[32rem] translate-x-1/2 rounded-[55%] bg-rose-500 md:invisible"></figure>
       </div>
+
+      {/* FIGURAS */}
+      <figure className="absolute -right-32 -top-40 -z-10 size-72 rounded-full bg-rose-500 md:-right-[20rem] md:-top-[20rem] md:size-[32rem] lg:size-[40rem] xl:size-[48rem]"></figure>
+      <figure className="absolute -right-64 -top-10 -z-10 size-80 rounded-full bg-rose-400 md:invisible"></figure>
+
+      <figure className="absolute -bottom-64 -left-72 -z-10 size-[36rem] rounded-[55%] bg-rose-400 md:-bottom-[40rem] md:-left-[28rem]  md:size-[76rem] lg:size-[82rem]"></figure>
+      <figure className="absolute -bottom-3/4 right-1/2 -z-10 size-[32rem] translate-x-1/2 rounded-[55%] bg-rose-500 md:invisible"></figure>
     </div>
   );
 };
