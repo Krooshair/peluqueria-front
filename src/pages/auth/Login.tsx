@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 
 type Inputs = {
@@ -10,22 +10,26 @@ type Inputs = {
 };
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const { singin, isAuth, isErrors } = useAuth();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(isAuth){
-      navigate('/dashboard')
+    if (isAuth) {
+      navigate("/dashboard");
     }
-  })
+  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => singin(data);
 
-  if(isAuth){
-    return null
+  if (isAuth) {
+    return null;
   }
 
   return (
@@ -33,7 +37,7 @@ const Login = () => {
       <div className="mx-auto h-full w-[90%] max-w-screen-lg py-12">
         <div className="flex h-full w-full rounded-2xl md:bg-[#FAFAFA]">
           <div className="hidden h-full w-full rounded-s-xl bg-presentation bg-cover bg-center bg-no-repeat md:block"></div>
-          <div className="flex h-full w-full flex-col justify-around md:p-2 md:relative overflow-hidden">
+          <div className="flex h-full w-full flex-col justify-around overflow-hidden md:relative md:p-2">
             <div className="flex h-full w-full flex-col justify-center gap-2">
               <h1 className="font-salsa text-5xl">Bienvenido</h1>
               <h2 className="font-montserrat">
@@ -80,7 +84,7 @@ const Login = () => {
                     />
                     <label
                       htmlFor="remember"
-                      className="text-sm peer-checked:text-blue-500"
+                      className="cursor-pointer text-sm peer-checked:text-blue-500"
                     >
                       Recuerdame
                     </label>
@@ -99,21 +103,35 @@ const Login = () => {
             </form>
 
             {/* ALERTA DE ERRORES */}
-            {
-              errors.email && <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">El correo es obligatorio</span></div>
-            }
-            {
-              errors.email? 
-                errors.password && <div className="absolute top-14 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">La contraseña es obligatoria</span></div>
-              : errors.password && <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">La contraseña es obligatoria</span></div>
-            }
-            {
-              isErrors? 
-              (
-                <div className="absolute top-4 right-4 animate-alert p-2 w-1/2 max-w-60 flex justify-center rounded-md bg-rose-900"><span className="text-white text-xs text-center">{isErrors}</span></div>
-              )
-              :null
-            }
+            {errors.email && (
+              <div className="absolute right-4 top-4 flex w-1/2 max-w-60 animate-alert justify-center rounded-md bg-rose-900 p-2">
+                <span className="text-center text-xs text-white">
+                  El correo es obligatorio
+                </span>
+              </div>
+            )}
+            {errors.email
+              ? errors.password && (
+                  <div className="absolute right-4 top-14 flex w-1/2 max-w-60 animate-alert justify-center rounded-md bg-rose-900 p-2">
+                    <span className="text-center text-xs text-white">
+                      La contraseña es obligatoria
+                    </span>
+                  </div>
+                )
+              : errors.password && (
+                  <div className="absolute right-4 top-4 flex w-1/2 max-w-60 animate-alert justify-center rounded-md bg-rose-900 p-2">
+                    <span className="text-center text-xs text-white">
+                      La contraseña es obligatoria
+                    </span>
+                  </div>
+                )}
+            {isErrors ? (
+              <div className="absolute right-4 top-4 flex w-1/2 max-w-60 animate-alert justify-center rounded-md bg-rose-900 p-2">
+                <span className="text-center text-xs text-white">
+                  {isErrors}
+                </span>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

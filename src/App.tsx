@@ -1,9 +1,10 @@
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
 import Protected from "./Protected";
-import Layout from "./pages/Layout";
+import Layout from "./pages/layout/Layout";
 import Dashboard from "./pages/Dashboard";
+import User from "./pages/User";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/singin" element={<Login />} />
             <Route element={<Protected />}>
-              <Route element={<Layout/>}>
-                <Route path="/dashboard" element={<Dashboard />} /> 
+              <Route element={<Layout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/user" element={<User />} />
               </Route>
             </Route>
             <Route path="*" element={<h1>404 not found</h1>} />

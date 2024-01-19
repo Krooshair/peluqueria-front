@@ -8,3 +8,4 @@ export type DataLogin = {
 
 export const login = (data: DataLogin) => instance.post('/login', data)
 export const logout = (token: string) => instance.post('/logout', token)
+export const profile = () => instance.get('/profile')
